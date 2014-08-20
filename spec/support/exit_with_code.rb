@@ -8,7 +8,7 @@ module Rake
 
       def matches?(event_proc)
         @event_proc = event_proc
-        return false unless Proc === event_proc
+        return false unless event_proc.respond_to?(:call)
         raise_block_syntax_error if block_given?
 
         begin
@@ -25,7 +25,7 @@ module Rake
 
       def failure_message
         "expected block to call exit(#{@code}) but exit" +
-            (@actual.nil? ? " not called" : "(#{@actual}) was called")
+            (@actual.nil? ? ' not called' : "(#{@actual}) was called")
       end
 
       def failure_message_when_negated

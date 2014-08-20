@@ -18,29 +18,29 @@ describe Rake::Notes::SourceAnnotationExtractor do
   context 'extracting notes based on file type' do
     subject do
       subj = StringIO.new
-      described_class.enumerate('TODO', :out => subj)
+      described_class.enumerate('TODO', out: subj)
       subj.string
     end
 
     before(:all) do
-      fixture_file "index.html.erb", "<% # TODO: note in erb %>"
-      fixture_file "index.html.haml", "- # TODO: note in haml"
-      fixture_file "index.html.slim", "/ TODO: note in slim"
-      fixture_file "application.js.coffee", "# TODO: note in coffee"
-      fixture_file "application.js", "// TODO: note in js"
-      fixture_file "application.css", "// TODO: note in css"
-      fixture_file "application.css.scss", "// TODO: note in scss"
-      fixture_file "application_controller.rb", 1000.times.map { "" }.join("\n") << "# TODO: note in ruby"
-      fixture_file "task.rake", "# TODO: note in rake"
-      fixture_file "init.pp", "# TODO: note in puppet"
-      fixture_file "config.yml", "# TODO: note in yml"
-      fixture_file "config.yaml", "# TODO: note in yaml"
-      fixture_file "gem.gemspec", "# TODO: note in gemspec"
-      fixture_file "Vagrantfile", "# TODO: note in vagrantfile"
-      fixture_file "Rakefile", "# TODO: note in rakefile"
-      fixture_file "Puppetfile", "# TODO: note in puppetfile"
-      fixture_file "Gemfile", "# TODO: note in gemfile"
-      fixture_file "feature.feature", "# TODO: note in cucumber feature"
+      fixture_file 'index.html.erb', '<% # TODO: note in erb %>'
+      fixture_file 'index.html.haml', '- # TODO: note in haml'
+      fixture_file 'index.html.slim', '/ TODO: note in slim'
+      fixture_file 'application.js.coffee', '# TODO: note in coffee'
+      fixture_file 'application.js', '// TODO: note in js'
+      fixture_file 'application.css', '// TODO: note in css'
+      fixture_file 'application.css.scss', '// TODO: note in scss'
+      fixture_file 'application_controller.rb', 1000.times.map { '' }.join("\n") << '# TODO: note in ruby'
+      fixture_file 'task.rake', '# TODO: note in rake'
+      fixture_file 'init.pp', '# TODO: note in puppet'
+      fixture_file 'config.yml', '# TODO: note in yml'
+      fixture_file 'config.yaml', '# TODO: note in yaml'
+      fixture_file 'gem.gemspec', '# TODO: note in gemspec'
+      fixture_file 'Vagrantfile', '# TODO: note in vagrantfile'
+      fixture_file 'Rakefile', '# TODO: note in rakefile'
+      fixture_file 'Puppetfile', '# TODO: note in puppetfile'
+      fixture_file 'Gemfile', '# TODO: note in gemfile'
+      fixture_file 'feature.feature', '# TODO: note in cucumber feature'
     end
 
     it { should match(/note in erb/) }
@@ -65,10 +65,10 @@ describe Rake::Notes::SourceAnnotationExtractor do
 
   context 'when fail_on_exit is true' do
     it 'fails when the specified tag is found' do
-      fixture_file "index.html.erb", "<% # FIXME: note in erb %>"
+      fixture_file 'index.html.erb', '<% # FIXME: note in erb %>'
 
       subj = StringIO.new
-      expect { described_class.enumerate('FIXME', :out => subj, :fail_on_exit => true) }.to exit_with_code(1)
+      expect { described_class.enumerate('FIXME', out: subj, fail_on_exit: true) }.to exit_with_code(1)
     end
 
   end
@@ -76,10 +76,10 @@ describe Rake::Notes::SourceAnnotationExtractor do
   context 'when fail_on_exit is false' do
 
     it 'does not fail when the specified tag is found' do
-      fixture_file "index.html.erb", "<% # FIXME: note in erb %>"
+      fixture_file 'index.html.erb', '<% # FIXME: note in erb %>'
 
       subj = StringIO.new
-      expect { described_class.enumerate('FIXME', :out => subj, :fail_on_exit => false) }.to_not exit_with_code(1)
+      expect { described_class.enumerate('FIXME', out: subj, fail_on_exit: false) }.to_not exit_with_code(1)
     end
   end
 

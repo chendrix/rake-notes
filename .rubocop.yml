@@ -1,0 +1,17 @@
+AllCops:
+  Include:
+    - '**/Rakefile'
+  Exclude:
+    - '**/Gemfile.lock'
+    - '**/*.md'
+    - '**/*.yml'
+    - 'lib/rake/notes/source_annotation_extractor.rb'
+Style/LineLength:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/MethodLength:
+  Max: 15
+Style/Blocks:
+  Exclude:
+    - '**/*_spec.rb'
