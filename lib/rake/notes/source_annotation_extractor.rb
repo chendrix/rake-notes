@@ -53,7 +53,9 @@ module Rake
       # This class method is the single entry point for the rake tasks.
       def self.enumerate(tag, options={})
         extractor = new(tag)
-        extractor.display(extractor.find, options)
+        results_found = extractor.find
+        extractor.display(results_found, options)
+        exit 1 if options[:fail_on_exit] && results_found
       end
 
       attr_reader :tag

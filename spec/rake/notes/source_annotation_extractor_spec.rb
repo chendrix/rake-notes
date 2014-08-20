@@ -3,16 +3,16 @@ require 'spec_helper'
 require 'rake/notes/source_annotation_extractor'
 
 describe Rake::Notes::SourceAnnotationExtractor do
-  let(:fixture_path) { "#{Dir.pwd}/.tmp" }
+  FIXTURE_PATH = "#{SPEC_PATH}/.tmp"
+  CURRENT_PATH = Dir.pwd
 
   before do
-    @current_path = Dir.pwd
-    Dir.mkdir(fixture_path) unless Dir.exist?(fixture_path)
-    Dir.chdir(fixture_path)
+    Dir.mkdir(FIXTURE_PATH) unless Dir.exist?(FIXTURE_PATH)
+    Dir.chdir(FIXTURE_PATH)
   end
 
   after do
-    Dir.chdir(@current_path)
+    Dir.chdir(CURRENT_PATH)
   end
 
   context 'extracting notes based on file type' do
@@ -63,9 +63,29 @@ describe Rake::Notes::SourceAnnotationExtractor do
     it { should match(/note in cucumber feature/) }
   end
 
+  context 'when fail_on_exit is true' do
+    it 'fails when the specified tag is found' do
+      fixture_file "index.html.erb", "<% # FIXME: note in erb %>"
+
+      subj = StringIO.new
+      expect { described_class.enumerate('FIXME', :out => subj, :fail_on_exit => true) }.to exit_with_code(1)
+    end
+
+  end
+
+  context 'when fail_on_exit is false' do
+
+    it 'does not fail when the specified tag is found' do
+      fixture_file "index.html.erb", "<% # FIXME: note in erb %>"
+
+      subj = StringIO.new
+      expect { described_class.enumerate('FIXME', :out => subj, :fail_on_exit => false) }.to_not exit_with_code(1)
+    end
+  end
+
   def fixture_file(path, contents)
-    FileUtils.mkdir_p File.dirname("#{fixture_path}/#{path}")
-    File.open("#{fixture_path}/#{path}", 'w') do |f|
+    FileUtils.mkdir_p File.dirname("#{FIXTURE_PATH}/#{path}")
+    File.open("#{FIXTURE_PATH}/#{path}", 'w') do |f|
       f.puts contents
     end
   end
