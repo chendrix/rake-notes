@@ -2,6 +2,7 @@ require 'bundler/setup'
 Bundler.require(:default)
 
 SPEC_PATH = File.expand_path('..', __FILE__)
+LIB_PATH = File.expand_path(File.join(SPEC_PATH, '../lib'), __FILE__)
 
 require_relative 'support/exit_with_code'
 

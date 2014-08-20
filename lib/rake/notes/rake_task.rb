@@ -13,14 +13,26 @@ module Rake
 
         desc "Enumerate all annotations (use notes:optimize, :fixme, :todo for focus)"
         task :notes do
-          SourceAnnotationExtractor.enumerate "OPTIMIZE|FIXME|TODO", :tag => true
+          ["OPTIMIZE", "TODO"].each do |annotation|
+            SourceAnnotationExtractor.enumerate annotation, tag: true
+          end
+          ["FIXME"].each do |annotation|
+            SourceAnnotationExtractor.enumerate annotation, tag: true, fail_on_exit: true
+          end
         end
 
         namespace :notes do
-          ["OPTIMIZE", "FIXME", "TODO"].each do |annotation|
+          ["OPTIMIZE", "TODO"].each do |annotation|
             desc "Enumerate all #{annotation} annotations"
             task annotation.downcase.intern do
               SourceAnnotationExtractor.enumerate annotation
+            end
+          end
+
+          ["FIXME"].each do |annotation|
+            desc "Enumerate all #{annotation} annotations"
+            task annotation.downcase.intern do
+              SourceAnnotationExtractor.enumerate annotation, fail_on_exit: true
             end
           end
 
