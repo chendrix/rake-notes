@@ -6,11 +6,11 @@ AllCops:
     - '**/*.md'
     - '**/*.yml'
     - 'lib/rake/notes/source_annotation_extractor.rb'
-Style/LineLength:
+Metrics/LineLength:
   Enabled: false
 Style/Documentation:
   Enabled: false
-Style/MethodLength:
+Metrics/MethodLength:
   Max: 15
 Style/Blocks:
   Exclude:

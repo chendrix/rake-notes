@@ -1,0 +1,89 @@
+From 5d086ec99b5a0ea0b336b3a43e79a6566427a34a Mon Sep 17 00:00:00 2001
+From: Chris Hendrix <cah276@cornell.edu>
+Date: Wed, 20 Aug 2014 20:01:00 -0700
+Subject: [PATCH] Add travis for ci, creating scripts/ci.sh
+
+---
+ .rubocop.yml       |  4 ++--
+ .travis.yml        | 13 +++++++++++++
+ Gemfile            |  4 ++++
+ rake-notes.gemspec |  2 +-
+ scripts/ci.sh      |  5 +++++
+ 5 files changed, 25 insertions(+), 3 deletions(-)
+ create mode 100644 .travis.yml
+ create mode 100755 scripts/ci.sh
+
+diff --git a/.rubocop.yml b/.rubocop.yml
+index 3069037..7b30594 100644
+--- a/.rubocop.yml
++++ b/.rubocop.yml
+@@ -6,11 +6,11 @@ AllCops:
+     - '**/*.md'
+     - '**/*.yml'
+     - 'lib/rake/notes/source_annotation_extractor.rb'
+-Style/LineLength:
++Metrics/LineLength:
+   Enabled: false
+ Style/Documentation:
+   Enabled: false
+-Style/MethodLength:
++Metrics/MethodLength:
+   Max: 15
+ Style/Blocks:
+   Exclude:
+diff --git a/.travis.yml b/.travis.yml
+new file mode 100644
+index 0000000..a658e4d
+--- /dev/null
++++ b/.travis.yml
+@@ -0,0 +1,13 @@
++language: ruby
++rvm:
++  - 2.1.1
++  - 2.1.0
++  - 1.9.3
++  - 1.9.2
++  - 1.8.7
++  - jruby-19mode
++  - jruby-18mode
++  - ruby-head
++  - jruby-head
++  - ree
++  - rbx-2
+diff --git a/Gemfile b/Gemfile
+index 538edfc..f3ac490 100644
+--- a/Gemfile
++++ b/Gemfile
+@@ -2,3 +2,7 @@ source 'https://rubygems.org'
+ 
+ # Specify your gem's dependencies in rake-notes.gemspec
+ gemspec
++
++group :development do
++  gem 'pry-rescue', '~> 1.4'
++end
+diff --git a/rake-notes.gemspec b/rake-notes.gemspec
+index 033d2f5..91282dd 100644
+--- a/rake-notes.gemspec
++++ b/rake-notes.gemspec
+@@ -21,5 +21,5 @@ Gem::Specification.new do |gem|
+   gem.add_dependency 'colored'
+ 
+   gem.add_development_dependency 'rspec', '~> 3.0'
+-  gem.add_development_dependency 'pry-rescue', '~> 1.4'
++  gem.add_development_dependency 'rubocop', '~> 0.25'
+ end
+diff --git a/scripts/ci.sh b/scripts/ci.sh
+new file mode 100755
+index 0000000..c2b1d46
+--- /dev/null
++++ b/scripts/ci.sh
+@@ -0,0 +1,5 @@
++#!/usr/bin/env sh
++
++bundle exec rake
++
++bundle exec rubocop --format simple --display-cop-names
+-- 
+1.8.4.2
+
