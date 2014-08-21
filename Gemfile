@@ -5,5 +5,4 @@ gemspec
 
 group :development do
   gem 'pry-rescue', '~> 1.4'
-  gem 'rubocop', '~> 0.25'
 end
