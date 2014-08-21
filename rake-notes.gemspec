@@ -21,5 +21,4 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'colored'
 
   gem.add_development_dependency 'rspec', '~> 3.0'
-  gem.add_development_dependency 'rubocop', '~> 0.25'
 end
